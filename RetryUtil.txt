@@ -1,0 +1,6 @@
+ private RetryBackoffSpec getRetryBackoffSpec() {
+        return Retry.fixedDelay(3, Duration.ofMillis(500))
+                    .filter(ex->ex instanceof MovieException)
+                    .onRetryExhaustedThrow(((retryBackoffSpec, retrySignal) ->
+                            Exceptions.propagate(retrySignal.failure())));
+    }
